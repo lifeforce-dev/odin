@@ -8,6 +8,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+/Content/ultimate_dark_gui/*
+
 # Ignore RiderLink plugin
 /Plugins/Developer/RiderLink/
 
