@@ -23,9 +23,6 @@ public:
 
 	static UODNWorkoutSession* Create(UODNWorkoutManager* InManager);
 
-	UFUNCTION(BlueprintCallable, Category = "WorkoutSession")
-	void IncrementRepCount() { ++RepCount; }
-
 	UFUNCTION(BlueprintPure, Category = "WorkoutManager")
 	UODNCircuitData* GetCurrentCircuitData() const;
 
@@ -35,25 +32,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WorkoutSession")
 	FDateTime GetStartTime() const { return StartTime; }
 
-	UFUNCTION(BlueprintCallable, Category = "WorkoutSession")
-	int32 GetCurrentRepCount() const { return RepCount; }
-
 private:
 	UFUNCTION()
 	void OnExerciseStarted(FGameplayTag InWorkoutItemTag);
 
-	// Private internal hidden functions.
-	void InitFromData(const UODNWorkoutItemData* InCircuitData);
-
 private:
-	UPROPERTY(BlueprintReadOnly, Category="WorkoutSession", meta = (AllowPrivateAccess = "true"))
-	FGameplayTag WorkoutItemTag;
-	
+
 	UPROPERTY(BlueprintReadOnly, Category = "WorkoutSession", meta = (AllowPrivateAccess = "true"))
 	FDateTime StartTime = FDateTime::UtcNow();
-
-	UPROPERTY(BlueprintReadWrite, Category = "WorkoutSession", meta = (AllowPrivateAccess = "true"))
-	int32 RepCount = 0;
 
 	// TODO: Store the next-run circuit in save file.
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))

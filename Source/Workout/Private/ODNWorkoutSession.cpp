@@ -3,6 +3,7 @@
 
 #include "ODNWorkoutSession.h"
 
+#include "GameplayTagsManager.h"
 #include "ODNGameplayDeveloperSettings.h"
 #include "ODNExerciseState.h"
 #include "ODNWorkoutEvents.h"
@@ -14,6 +15,7 @@
 #include "Logging/StructuredLog.h"
 
 DEFINE_LOG_CATEGORY(LogODNWorkoutSession);
+
 
 UODNWorkoutSession* UODNWorkoutSession::Create(UODNWorkoutManager* InManager)
 {
@@ -39,6 +41,10 @@ UODNCircuitData* UODNWorkoutSession::GetCurrentCircuitData() const
 
 UODNWorkoutItemData* UODNWorkoutSession::GetWorkoutItemDataForTag(const FGameplayTag& InWorkoutItemTag) const
 {
+	if (!InWorkoutItemTag.IsValid())
+	{
+		return nullptr;
+	}
 	if (!CircuitData || !InWorkoutItemTag.IsValid())
 	{
 		return nullptr;
@@ -78,11 +84,5 @@ void UODNWorkoutSession::OnExerciseStarted(FGameplayTag InWorkoutItemTag)
 
 	// We need to create the exercise state.
 	int32 Index = WorkoutItemStates.Add(UODNExerciseState::Create(WorkoutManager,
-		GetWorkoutItemDataForTag(WorkoutItemTag)));
-}
-
-void UODNWorkoutSession::InitFromData(const UODNWorkoutItemData* InWorkoutItemData)
-{
-	RepCount = InWorkoutItemData->RepCount;
-	WorkoutItemTag = InWorkoutItemData->WorkoutItemTag;
+		GetWorkoutItemDataForTag(InWorkoutItemTag)));
 }
